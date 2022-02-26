@@ -5,18 +5,28 @@
  */
 package Telegram;
 
+import org.json.*;
+
 /**
  *
  * @author pina_lorenzo
  */
 public class Messaggio {
-    public int IDFrom;
-    public int IdChat;
-    public String text;
+    public int id;
     public int date;
-    public Messaggio(){
+    public Chat chat;
+    public User from;
+    public String text;
+    public Messaggio(JSONObject messaggio){
+        id=messaggio.getInt("message_id");
+        date=messaggio.getInt("date");
+        text=messaggio.getString("text");
+        chat=new Chat(messaggio.getJSONObject("chat"));
+        from=new User(messaggio.getJSONObject("from"));
+        
+        System.out.println(messaggio);
     }
-    public void Saluta(){
-        System.out.println("hello");
+    public String ToCsv(){
+        return id+";"+date+";"+text+";"+chat.ToCsv()+";"+from.ToCsv();
     }
 }

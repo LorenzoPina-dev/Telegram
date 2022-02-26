@@ -5,7 +5,9 @@
  */
 package telegrampub;
 import Telegram.*;
-import Json.*;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,9 +19,14 @@ public class TelegramPub {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here+
-        ParseFile.Parsa();
-        new Messaggio().Saluta();
+        try {
+            // TODO code application logic here+
+            List<Messaggio> updates=Interfaccia.Instance().GetUpdates();
+            for(Messaggio m:updates)
+                System.out.println(m.ToCsv());
+        } catch (Exception ex) {
+            Logger.getLogger(TelegramPub.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
