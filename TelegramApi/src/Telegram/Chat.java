@@ -14,12 +14,25 @@ import org.json.JSONObject;
 public class Chat {
     public int id;
     public String type;
-    public String title;
+    public String title,username,first_name,last_name;
+    public String bio,description,invite_link;
     public Chat(JSONObject Chat) {
         id=Chat.getInt("id");
         type=Chat.getString("type");
         if(Chat.has("title"))
             title=Chat.getString("title");
+        if(Chat.has("username"))
+            username=Chat.getString("username");
+        if(Chat.has("first_name"))
+            first_name=Chat.getString("first_name");
+        if(Chat.has("last_name"))
+            last_name=Chat.getString("last_name");
+        if(Chat.has("bio"))
+            bio=Chat.getString("bio");
+        if(Chat.has("description"))
+            description=Chat.getString("description");
+        if(Chat.has("invite_link"))
+            description=Chat.getString("invite_link");
     }
     public String ToCsv(){
         return id+";"+type+";"+title;

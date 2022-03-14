@@ -7,12 +7,22 @@ package Telegram;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -60,7 +70,45 @@ public class Interfaccia {
         }
         return null;
     }
-    public List<Messaggio> parseJson(String json) throws Exception{
+    public void SendMessage(int chat_Id,String Text) throws Exception
+    {
+        URL u;
+        try {
+            u = new URL("https://api.telegram.org/bot"+ApiKey+"/sendMessage?text="+ URLEncoder.encode(Text, StandardCharsets.UTF_8)+"&chat_id="+chat_Id);
+            BufferedReader sr= new BufferedReader(new InputStreamReader(u.openStream()));
+            String testo="",line="";
+            while((line=sr.readLine())!=null)
+                testo+=line;
+            JSONObject obj=new JSONObject(testo);
+            if(!obj.getBoolean("ok"))
+                throw new Exception("chiamata errata");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void sendLocation(int chat_Id,float Latitude,float Longitude) throws Exception
+    {
+        URL u;
+        try {
+            u = new URL("https://api.telegram.org/bot"+ApiKey+"/sendLocation?latitude="+ Latitude+"&longitude="+Longitude+"&chat_id="+chat_Id);
+            BufferedReader sr= new BufferedReader(new InputStreamReader(u.openStream()));
+            String testo="",line="";
+            while((line=sr.readLine())!=null)
+                testo+=line;
+            JSONObject obj=new JSONObject(testo);
+            if(!obj.getBoolean("ok"))
+                throw new Exception("chiamata errata");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private List<Messaggio> parseJson(String json) throws Exception{
         
         List<Messaggio> ris=new ArrayList();
         JSONObject obj=new JSONObject(json);

@@ -20,11 +20,11 @@ public class Messaggio {
     public Messaggio(JSONObject messaggio){
         id=messaggio.getInt("message_id");
         date=messaggio.getInt("date");
+        if(messaggio.has("text"))
         text=messaggio.getString("text");
         chat=new Chat(messaggio.getJSONObject("chat"));
         from=new User(messaggio.getJSONObject("from"));
         
-        System.out.println(messaggio);
     }
     public String ToCsv(){
         return id+";"+date+";"+text+";"+chat.ToCsv()+";"+from.ToCsv();
