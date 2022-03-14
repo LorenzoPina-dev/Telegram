@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 
 public class ThUpdate extends Thread{
     Map<String,String> utenti;
-    Map<String, Integer> IDUpate;
+    Map<String, Long> IDUpate;
     int secondi;
     public ThUpdate(int secondi){
         this.secondi=secondi;
