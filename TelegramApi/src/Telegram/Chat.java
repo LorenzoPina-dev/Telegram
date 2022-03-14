@@ -5,6 +5,7 @@
  */
 package Telegram;
 
+import java.math.BigInteger;
 import org.json.JSONObject;
 
 /**
@@ -12,12 +13,13 @@ import org.json.JSONObject;
  * @author user
  */
 public class Chat {
-    public int id;
+    public long id;
     public String type;
     public String title,username,first_name,last_name;
     public String bio,description,invite_link;
     public Chat(JSONObject Chat) {
-        id=Chat.getInt("id");
+        id=Chat.getLong("id");
+        System.out.println(id);
         type=Chat.getString("type");
         if(Chat.has("title"))
             title=Chat.getString("title");

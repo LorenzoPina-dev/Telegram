@@ -12,13 +12,13 @@ import org.json.*;
  * @author pina_lorenzo
  */
 public class Messaggio {
-    public int id;
+    public long id;
     public int date;
     public Chat chat;
     public User from;
     public String text;
     public Messaggio(JSONObject messaggio){
-        id=messaggio.getInt("message_id");
+        id=messaggio.getLong("message_id");
         date=messaggio.getInt("date");
         if(messaggio.has("text"))
         text=messaggio.getString("text");

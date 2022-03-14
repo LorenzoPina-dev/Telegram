@@ -70,7 +70,7 @@ public class Interfaccia {
         }
         return null;
     }
-    public void SendMessage(int chat_Id,String Text) throws Exception
+    public void SendMessage(long chat_Id,String Text) throws Exception
     {
         URL u;
         try {
@@ -89,7 +89,7 @@ public class Interfaccia {
         }
     }
     
-    public void sendLocation(int chat_Id,float Latitude,float Longitude) throws Exception
+    public void sendLocation(long chat_Id,float Latitude,float Longitude) throws Exception
     {
         URL u;
         try {

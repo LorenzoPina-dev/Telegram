@@ -53,7 +53,7 @@ public class DatiCondivisi {
             try {
                 FileWriter sw=new FileWriter(file);
                 for(Map.Entry<String, String> pair:utenti.entrySet())
-                    sw.write(pair.getKey()+";"+pair.getValue());
+                    sw.write(pair.getKey()+";"+pair.getValue()+"\r\n");
                 sw.flush();
                 sw.close();
             } catch (IOException ex) {

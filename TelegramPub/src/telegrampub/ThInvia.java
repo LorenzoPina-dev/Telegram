@@ -7,6 +7,7 @@ package telegrampub;
 
 import Openstreetmap.*;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,8 +35,9 @@ public class ThInvia extends Thread{
                 System.out.println(distanza);
                 if(distanza<pubblicita.raggio)
                 {
-                    Telegram.Interfaccia.Instance().sendLocation(Integer.parseInt(split[1]), paeseP.lat, paeseP.lon);
-                    Telegram.Interfaccia.Instance().SendMessage(Integer.parseInt(split[1]), "OFFERTA SPECIALE A "+pubblicita.citta.toUpperCase()+"\r\n"+pubblicita.testo+"\r\nDistanza: "+distanza);
+                    Telegram.Interfaccia.Instance().sendLocation(Long.parseLong(split[1]), paeseP.lat, paeseP.lon);
+                    Telegram.Interfaccia.Instance().SendMessage(Long.parseLong(split[1]), "OFFERTA SPECIALE A "+pubblicita.citta.toUpperCase()+"\r\n"+pubblicita.testo+"\r\nDistanza: "+distanza);
+                    System.out.println("inviato a: " +split[1]);
                 }
             } catch (ParserConfigurationException ex) {
                 Logger.getLogger(ThInvia.class.getName()).log(Level.SEVERE, null, ex);

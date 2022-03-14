@@ -12,14 +12,14 @@ import org.json.JSONObject;
  * @author user
  */
 public class User {
-    public int id;
+    public long id;
     public boolean is_bot,can_join_groups,can_read_all_group_messages,supports_inline_queries;
     public String first_name;
     public String last_name;
     public String username;
     public String language_code;
     public User(JSONObject User) {
-        id=User.getInt("id");
+        id=User.getLong("id");
         is_bot=User.getBoolean("is_bot");
         first_name=User.getString("first_name");
         if(User.has("last_name"))
