@@ -23,6 +23,7 @@
 hs_err_pid*
 /TelegramApi/dist/
 /TelegramPub/Secret.txt
+/TelegramPub/utenti.csv
 /OpenstreetmapApi/nbproject/private/
 /OpenstreetmapApi/build/
 /OpenstreetmapApi/dist/
