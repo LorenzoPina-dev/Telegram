@@ -48,7 +48,9 @@ public class ThUpdate extends Thread{
                 {
                     if(m.text.contains("/citta"))
                     {
-                        Place p=Gestore.GetCitta(m.text.split(" ")[1]);
+                        String citta=m.text.substring(m.text.indexOf(' '), m.text.length());
+                        if(citta.length()>0)
+                        { Place p=Gestore.GetCitta(citta);
                         if(utenti.containsKey(m.from.first_name))
                         {
                             if(!IDUpate.containsKey(m.from.first_name))
@@ -64,7 +66,7 @@ public class ThUpdate extends Thread{
                         }
                         else
                             Aggiorna(m.from.first_name, m.chat.id+";"+ p.toCSV());
-
+                        }
                     }
                 }
                 Thread.sleep(secondi);
