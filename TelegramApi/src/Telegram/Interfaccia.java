@@ -68,7 +68,7 @@ public class Interfaccia {
         } catch (IOException ex) {
             Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return new ArrayList<>();
     }
     public void SendMessage(long chat_Id,String Text) throws Exception
     {
