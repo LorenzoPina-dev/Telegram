@@ -31,13 +31,12 @@ public class ThInvia extends Thread{
             double distanza;
             try {
                 Place paeseP=Gestore.GetCitta(pubblicita.citta);
-                distanza = Gestore.calcolaDistanza(paeseP, new Place(Float.parseFloat(split[2]),Float.parseFloat(split[3])));
-                System.out.println(distanza);
+                distanza = Gestore.calcolaDistanza(paeseP, new Place(Double.parseDouble(split[2]),Double.parseDouble(split[3])));
                 if(distanza<pubblicita.raggio)
                 {
                     Telegram.Interfaccia.Instance().sendLocation(Long.parseLong(split[1]), paeseP.lat, paeseP.lon);
                     Telegram.Interfaccia.Instance().SendMessage(Long.parseLong(split[1]), "OFFERTA SPECIALE A "+pubblicita.citta.toUpperCase()+"\r\n"+pubblicita.testo+"\r\nDistanza: "+distanza);
-                    System.out.println("inviato a: " +split[1]);
+                    System.out.println("inviato a: " +split[1]+";"+distanza);
                 }
             } catch (ParserConfigurationException ex) {
                 Logger.getLogger(ThInvia.class.getName()).log(Level.SEVERE, null, ex);

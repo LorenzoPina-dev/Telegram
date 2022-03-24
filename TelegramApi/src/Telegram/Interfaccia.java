@@ -89,7 +89,7 @@ public class Interfaccia {
         }
     }
     
-    public void sendLocation(long chat_Id,float Latitude,float Longitude) throws Exception
+    public void sendLocation(long chat_Id,double Latitude,double Longitude) throws Exception
     {
         URL u;
         try {

@@ -19,7 +19,6 @@ public class Chat {
     public String bio,description,invite_link;
     public Chat(JSONObject Chat) {
         id=Chat.getLong("id");
-        System.out.println(id);
         type=Chat.getString("type");
         if(Chat.has("title"))
             title=Chat.getString("title");

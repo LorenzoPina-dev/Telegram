@@ -5,6 +5,7 @@
  */
 package Openstreetmap;
 
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -13,32 +14,20 @@ import org.w3c.dom.Node;
  * @author user
  */
 public class Place {
-    public String amenity;
-    public String road;
-    public String town;
-    public String county;
-    public String state;
-    public int postcode;
-    public String country;
-    public String country_code;
-    public float lat, lon;
+    public double lat, lon;
     
-    public Place(float lat,float lon){
+    public Place(double lat,double lon){
         this.lat=lat;
         this.lon=lon;
     }
     
     public Place(Element n){
-        lat=Float.parseFloat(n.getAttribute("lat"));
-        lon=Float.parseFloat(n.getAttribute("lon"));
-        /*amenity=n.getElementsByTagName("amenity").item(0).getTextContent();
-        road=n.getElementsByTagName("road").item(0).getTextContent();
-        town=n.getElementsByTagName("town").item(0).getTextContent();
-        county=n.getElementsByTagName("county").item(0).getTextContent();
-        state=n.getElementsByTagName("state").item(0).getTextContent();
-        postcode=Integer.parseInt(n.getElementsByTagName("postcode").item(0).getTextContent());
-        country=n.getElementsByTagName("country").item(0).getTextContent();
-        country_code=n.getElementsByTagName("country_code").item(0).getTextContent();*/
+        lat=Double.parseDouble(n.getAttribute("lat"));
+        lon=Double.parseDouble(n.getAttribute("lon"));
+    }
+    public Place(JSONObject n){
+        lat=n.getDouble("latitude");
+        lon=n.getDouble("longitude");
     }
     public String toCSV(){
         return lat+";"+lon;

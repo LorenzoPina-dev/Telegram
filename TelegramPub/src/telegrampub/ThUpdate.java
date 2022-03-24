@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 /**
  *
  * @author user
@@ -46,11 +48,17 @@ public class ThUpdate extends Thread{
                 List<Messaggio> updates=Telegram.Interfaccia.Instance().GetUpdates();
                 for(Messaggio m:updates)
                 {
-                    if(m.text.contains("/citta"))
+                    if((m.text!=null && m.text.contains("/citta"))|| m.location!=null)
                     {
-                        String citta=m.text.substring(m.text.indexOf(' '), m.text.length());
-                        if(citta.length()>0)
-                        { Place p=Gestore.GetCitta(citta);
+                        Place p=null;
+                        if((m.text!=null && m.text.contains("/citta")))
+                        {
+                            String citta=m.text.substring(m.text.indexOf(' '), m.text.length());
+                            if(citta.length()>0)
+                             p=Gestore.GetCitta(citta);
+                        }
+                        else if(m.location!=null)
+                            p=m.location;
                         if(utenti.containsKey(m.from.first_name))
                         {
                             if(!IDUpate.containsKey(m.from.first_name))
@@ -68,18 +76,27 @@ public class ThUpdate extends Thread{
                             Aggiorna(m.from.first_name, m.chat.id+";"+ p.toCSV());
                         }
                     }
-                }
-                Thread.sleep(secondi);
+                } catch (ParserConfigurationException ex) {
+                Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SAXException ex) {
+                Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+            }
+            try {
+                Thread.sleep(secondi);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     private void Aggiorna(String key,String value)
     {
         utenti.put(key,value);
         DatiCondivisi.Intance().ScriviInfoUtenti(utenti);
-        System.out.println("aggiornato");
+        System.out.println("Aggiornamento posizione");
     }
 
 }
