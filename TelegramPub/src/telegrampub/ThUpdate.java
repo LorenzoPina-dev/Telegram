@@ -73,7 +73,10 @@ public class ThUpdate extends Thread{
                             }
                         }
                         else
+                        { 
                             Aggiorna(m.from.first_name, m.chat.id+";"+ p.toCSV());
+                            IDUpate.put(m.from.first_name, m.id);
+                        }
                         }
                     }
                 } catch (ParserConfigurationException ex) {

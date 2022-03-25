@@ -25,11 +25,11 @@ import org.xml.sax.SAXException;
 public class Gestore {
     public static Place GetCitta(String citta) throws ParserConfigurationException, SAXException, IOException{
         String url="https://nominatim.openstreetmap.org/search?q="+URLEncoder.encode(citta, StandardCharsets.UTF_8)+"&format=xml&addressdetails=1";
-        return Parse(url);
+        return Parse(url,"place");
     }
     
     
-    private static Place Parse(String file) throws ParserConfigurationException, SAXException, IOException{
+    private static Place Parse(String file,String tag) throws ParserConfigurationException, SAXException, IOException{
         DocumentBuilderFactory factory;
         DocumentBuilder builder;
         Element root, element;
@@ -37,14 +37,11 @@ public class Gestore {
         builder=factory.newDocumentBuilder();
         Document document=builder.parse(file);
         root=document.getDocumentElement();
-        element = (Element) root.getElementsByTagName("place").item(0); 
+        element = (Element) root.getElementsByTagName(tag).item(0); 
         return new Place(element);
     }
     
     public static double calcolaDistanza(Place p1,Place p2){
         return Math.acos(Math.cos(Math.toRadians(90-p1.lat))*Math.cos(Math.toRadians(90-p2.lat))+Math.sin(Math.toRadians(90-p1.lat))*Math.sin(Math.toRadians(90-p2.lat))*Math.cos(Math.toRadians(p1.lon-p2.lon)))*6371*1000;
-        //float DM=0.9996f;
-        //return (1/Math.cos(Math.sin(Math.min(p1.lat, p2.lat))*Math.sin(Math.max(p1.lat, p2.lat))+Math.cos(Math.min(p1.lat, p2.lat))*Math.cos(Math.max(p1.lat, p2.lat))*Math.cos(Math.max(p1.lat, p2.lat)-Math.min(p1.lat, p2.lat))))*6371;
-        //return (float) (Math.sqrt(Math.pow(Math.abs(p1.lat-p2.lat), 2)+Math.pow(Math.abs(p1.lon-p2.lon), 2))+DM);
     }
 }

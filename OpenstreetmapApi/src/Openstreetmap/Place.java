@@ -31,6 +31,5 @@ public class Place {
     }
     public String toCSV(){
         return lat+";"+lon;
-        //return amenity+";"+road+";"+town+";"+county+";"+state+";"+postcode+";"+country+";"+country_code;
     }
 }

@@ -24,6 +24,7 @@ public class Messaggio {
         date=messaggio.getInt("date");
         if(messaggio.has("text"))
         text=messaggio.getString("text");
+        if(messaggio.has("chat"))
         chat=new Chat(messaggio.getJSONObject("chat"));
         from=new User(messaggio.getJSONObject("from"));
         if(messaggio.has("location"))

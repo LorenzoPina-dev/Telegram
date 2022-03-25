@@ -59,12 +59,7 @@ public class Interfaccia {
     public List<Messaggio> GetUpdates() throws Exception{
         try {
             URL u=new URL("https://api.telegram.org/bot"+ApiKey+"/getUpdates");
-            BufferedReader sr= new BufferedReader(new InputStreamReader(u.openStream()));
-            String testo="",line="";
-            while((line=sr.readLine())!=null)
-                testo+=line;
-            return parseJson(testo);
-            
+            return parseJson(LeggiResponse(u));
         } catch (IOException ex) {
             Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,11 +70,7 @@ public class Interfaccia {
         URL u;
         try {
             u = new URL("https://api.telegram.org/bot"+ApiKey+"/sendMessage?text="+ URLEncoder.encode(Text, StandardCharsets.UTF_8)+"&chat_id="+chat_Id);
-            BufferedReader sr= new BufferedReader(new InputStreamReader(u.openStream()));
-            String testo="",line="";
-            while((line=sr.readLine())!=null)
-                testo+=line;
-            JSONObject obj=new JSONObject(testo);
+            JSONObject obj=new JSONObject(LeggiResponse(u));
             if(!obj.getBoolean("ok"))
                 throw new Exception("chiamata errata");
         } catch (MalformedURLException ex) {
@@ -94,11 +85,7 @@ public class Interfaccia {
         URL u;
         try {
             u = new URL("https://api.telegram.org/bot"+ApiKey+"/sendLocation?latitude="+ Latitude+"&longitude="+Longitude+"&chat_id="+chat_Id);
-            BufferedReader sr= new BufferedReader(new InputStreamReader(u.openStream()));
-            String testo="",line="";
-            while((line=sr.readLine())!=null)
-                testo+=line;
-            JSONObject obj=new JSONObject(testo);
+            JSONObject obj=new JSONObject(LeggiResponse(u));
             if(!obj.getBoolean("ok"))
                 throw new Exception("chiamata errata");
         } catch (MalformedURLException ex) {
@@ -106,6 +93,14 @@ public class Interfaccia {
         } catch (IOException ex) {
             Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public String LeggiResponse(URL u) throws IOException
+    {
+        BufferedReader sr= new BufferedReader(new InputStreamReader(u.openStream()));
+        String testo="",line="";
+        while((line=sr.readLine())!=null)
+            testo+=line;
+        return testo;
     }
     
     private List<Messaggio> parseJson(String json) throws Exception{
@@ -115,8 +110,10 @@ public class Interfaccia {
         if(!obj.getBoolean("ok"))
             throw new Exception("chiamata errata");
         JSONArray result=obj.getJSONArray("result");
+        
         for(int i=0;i<result.length();i++)
-            ris.add(new Messaggio(result.getJSONObject(i).getJSONObject("message")));
+            if(result.getJSONObject(i).has("message"))
+                ris.add(new Messaggio(result.getJSONObject(i).getJSONObject("message")));
         return ris;
     }
 }
