@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.*;
+import LibUtil.*;
 
 /**
  *
@@ -38,15 +39,7 @@ public class Interfaccia {
     public String ApiKey;
     private Interfaccia() {
         try {
-            BufferedReader in = new BufferedReader(new FileReader("./Secret.txt"));
-        try {
-            ApiKey=in.readLine();
-        } catch (IOException ex) {
-            Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        in.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
+            ApiKey=GestioneFile.LeggiFile("./Secret.txt");
         } catch (IOException ex) {
             Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,8 +51,7 @@ public class Interfaccia {
     }
     public List<Messaggio> GetUpdates() throws Exception{
         try {
-            URL u=new URL("https://api.telegram.org/bot"+ApiKey+"/getUpdates");
-            return parseJson(LeggiResponse(u));
+            return parseJson(GestioneUrl.LeggiResponse("https://api.telegram.org/bot"+ApiKey+"/getUpdates"));
         } catch (IOException ex) {
             Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,10 +59,8 @@ public class Interfaccia {
     }
     public void SendMessage(long chat_Id,String Text) throws Exception
     {
-        URL u;
         try {
-            u = new URL("https://api.telegram.org/bot"+ApiKey+"/sendMessage?text="+ URLEncoder.encode(Text, StandardCharsets.UTF_8)+"&chat_id="+chat_Id);
-            JSONObject obj=new JSONObject(LeggiResponse(u));
+            JSONObject obj=new JSONObject(GestioneUrl.LeggiResponse("https://api.telegram.org/bot"+ApiKey+"/sendMessage?text="+ URLEncoder.encode(Text, StandardCharsets.UTF_8)+"&chat_id="+chat_Id));
             if(!obj.getBoolean("ok"))
                 throw new Exception("chiamata errata");
         } catch (MalformedURLException ex) {
@@ -82,10 +72,8 @@ public class Interfaccia {
     
     public void sendLocation(long chat_Id,double Latitude,double Longitude) throws Exception
     {
-        URL u;
         try {
-            u = new URL("https://api.telegram.org/bot"+ApiKey+"/sendLocation?latitude="+ Latitude+"&longitude="+Longitude+"&chat_id="+chat_Id);
-            JSONObject obj=new JSONObject(LeggiResponse(u));
+            JSONObject obj=new JSONObject(GestioneUrl.LeggiResponse("https://api.telegram.org/bot"+ApiKey+"/sendLocation?latitude="+ Latitude+"&longitude="+Longitude+"&chat_id="+chat_Id));
             if(!obj.getBoolean("ok"))
                 throw new Exception("chiamata errata");
         } catch (MalformedURLException ex) {
@@ -94,17 +82,8 @@ public class Interfaccia {
             Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public String LeggiResponse(URL u) throws IOException
-    {
-        BufferedReader sr= new BufferedReader(new InputStreamReader(u.openStream()));
-        String testo="",line="";
-        while((line=sr.readLine())!=null)
-            testo+=line;
-        return testo;
-    }
     
     private List<Messaggio> parseJson(String json) throws Exception{
-        
         List<Messaggio> ris=new ArrayList();
         JSONObject obj=new JSONObject(json);
         if(!obj.getBoolean("ok"))

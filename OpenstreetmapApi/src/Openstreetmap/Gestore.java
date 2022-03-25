@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
+import LibUtil.*;
 /**
  *
  * @author user
@@ -28,20 +28,12 @@ public class Gestore {
         return Parse(url,"place");
     }
     
-    
     private static Place Parse(String file,String tag) throws ParserConfigurationException, SAXException, IOException{
-        DocumentBuilderFactory factory;
-        DocumentBuilder builder;
-        Element root, element;
-        factory=DocumentBuilderFactory.newInstance();
-        builder=factory.newDocumentBuilder();
-        Document document=builder.parse(file);
-        root=document.getDocumentElement();
-        element = (Element) root.getElementsByTagName(tag).item(0); 
-        return new Place(element);
+        return new Place((Element) ParseFile.ParseXml(file).getElementsByTagName(tag).item(0));
     }
     
     public static double calcolaDistanza(Place p1,Place p2){
         return Math.acos(Math.cos(Math.toRadians(90-p1.lat))*Math.cos(Math.toRadians(90-p2.lat))+Math.sin(Math.toRadians(90-p1.lat))*Math.sin(Math.toRadians(90-p2.lat))*Math.cos(Math.toRadians(p1.lon-p2.lon)))*6371*1000;
     }
+    
 }

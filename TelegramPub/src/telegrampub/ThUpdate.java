@@ -59,7 +59,7 @@ public class ThUpdate extends Thread{
                         }
                         else if(m.location!=null)
                             p=m.location;
-                        if(utenti.containsKey(m.from.first_name))
+                        if(!utenti.containsKey(m.from.first_name))
                         {
                             if(!IDUpate.containsKey(m.from.first_name))
                             {

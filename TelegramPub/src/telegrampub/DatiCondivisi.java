@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import LibUtil.*;
 /**
  *
  * @author user
@@ -32,30 +32,23 @@ public class DatiCondivisi {
     private DatiCondivisi(){
     }
     public  List LeggiInfoUtenti(){
-        List<String> ris=new ArrayList();
         synchronized(this){
             try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line="";
-            while((line=br.readLine())!=null)
-                ris.add(line);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            return ris;
+                return GestioneFile.LeggiFileList(file);
+            } catch (IOException ex) {
+                Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return new ArrayList<>();
         }
     }
     public void ScriviInfoUtenti(Map<String,String> utenti){
         
         synchronized(this){
             try {
-                FileWriter sw=new FileWriter(file);
+                String testo="";
                 for(Map.Entry<String, String> pair:utenti.entrySet())
-                    sw.write(pair.getKey()+";"+pair.getValue()+"\r\n");
-                sw.flush();
-                sw.close();
+                    testo+=pair.getKey()+";"+pair.getValue()+"\r\n";
+                GestioneFile.ScriviFile(file, testo);
             } catch (IOException ex) {
                 Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
             }
