@@ -7,7 +7,6 @@ package telegrampub;
 
 import Openstreetmap.*;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

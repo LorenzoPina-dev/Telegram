@@ -5,6 +5,13 @@
  */
 package telegrampub;
 
+import LibUtil.GestioneFile;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author user
@@ -124,7 +131,7 @@ public class Interfaccia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ThInvia inv=new ThInvia(new Pubblicita(TxtCitta.getText(),Integer.parseInt(TxtRaggio.getText()),TxtTesto.getText()));
+        ThInvia inv=new ThInvia(new Pubblicita(TxtCitta.getText(),Integer.parseInt(TxtRaggio.getText())*1000,TxtTesto.getText()));
         inv.start();
     }//GEN-LAST:event_jButton1ActionPerformed
 

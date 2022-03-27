@@ -6,14 +6,8 @@
 package telegrampub;
 import Openstreetmap.*;
 import Telegram.*;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -31,8 +25,8 @@ public class ThUpdate extends Thread{
     int secondi;
     public ThUpdate(int secondi){
         this.secondi=secondi;
-        utenti=new Hashtable();
-        IDUpate=new Hashtable();
+        utenti=new HashMap();
+        IDUpate=new HashMap();
         List<String> file=DatiCondivisi.Intance().LeggiInfoUtenti();
         for(String line:file)
         {
@@ -59,31 +53,19 @@ public class ThUpdate extends Thread{
                         }
                         else if(m.location!=null)
                             p=m.location;
-                        if(!utenti.containsKey(m.from.first_name))
+                        
+                        if(p!=null &&(!IDUpate.containsKey(m.from.first_name)||(IDUpate.containsKey(m.from.first_name)&&IDUpate.get(m.from.first_name)<m.id)))
                         {
-                            if(!IDUpate.containsKey(m.from.first_name))
-                            {
+                            if(!utenti.get(m.from.first_name).equals(m.chat.id+";"+ p.toCSV()))
                                 Aggiorna(m.from.first_name, m.chat.id+";"+ p.toCSV());
-                                IDUpate.put(m.from.first_name, m.id);
-                            }
-                            else if(!utenti.get(m.from.first_name).equals(m.chat.id+";"+ p.toCSV()) && IDUpate.get(m.from.first_name)<m.id)
-                            {
-                                Aggiorna(m.from.first_name, m.chat.id+";"+ p.toCSV());
-                                IDUpate.put(m.from.first_name, m.id);
-                            }
-                        }
-                        else
-                        { 
-                            Aggiorna(m.from.first_name, m.chat.id+";"+ p.toCSV());
                             IDUpate.put(m.from.first_name, m.id);
-                        }
+                            System.out.println("Aggiornamento update");
                         }
                     }
-                } catch (ParserConfigurationException ex) {
+                }
+            } catch (ParserConfigurationException ex) {
                 Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SAXException ex) {
-                Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+            } catch (SAXException | IOException ex) {
                 Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ThUpdate.class.getName()).log(Level.SEVERE, null, ex);

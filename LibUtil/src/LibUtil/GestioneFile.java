@@ -5,12 +5,16 @@
  */
 package LibUtil;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +26,13 @@ import java.util.Map;
  */
 public class GestioneFile {
     public static void ScriviFile(String file,String testo) throws IOException{
-        FileWriter sw=new FileWriter(file);
+        ScriviFile(new FileWriter(file), testo);
+    }
+    public static void ScriviFile(OutputStream file,String testo) throws IOException{
+        ScriviFile(new OutputStreamWriter(file), testo);
+    }
+    public static void ScriviFile(OutputStreamWriter file,String testo) throws IOException{
+        BufferedWriter sw= new BufferedWriter(file);
         sw.write(testo);
         sw.flush();
         sw.close();

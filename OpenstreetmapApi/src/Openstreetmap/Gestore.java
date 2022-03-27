@@ -18,14 +18,20 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import LibUtil.*;
+import Services.*;
+import java.util.HashMap;
+import java.util.Map;
 /**
  *
  * @author user
  */
 public class Gestore {
-    public static Place GetCitta(String citta) throws ParserConfigurationException, SAXException, IOException{
-        String url="https://nominatim.openstreetmap.org/search?q="+URLEncoder.encode(citta, StandardCharsets.UTF_8)+"&format=xml&addressdetails=1";
-        return Parse(url,"place");
+    public static Place GetCitta(String citta) throws ParserConfigurationException, SAXException, IOException{  
+        Map<String,String> parametri=new HashMap();
+        parametri.put("q", citta);
+        parametri.put("format", "xml");
+        parametri.put("addressdetails", 1+"");
+        return Parse(GestioneService.CreateUrl("https://nominatim.openstreetmap.org/search", parametri),"place");
     }
     
     private static Place Parse(String file,String tag) throws ParserConfigurationException, SAXException, IOException{
