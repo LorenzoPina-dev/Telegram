@@ -40,10 +40,7 @@ public class DatiCondivisi {
         
         synchronized(this){
             try {
-                String testo="";
-                for(Map.Entry<String, String> pair:utenti.entrySet())
-                    testo+=pair.getKey()+";"+pair.getValue()+"\r\n";
-                GestioneFile.ScriviFile(file, testo);
+                GestioneFile.ScriviFile(file, Generiche.MapToString(utenti, ";", "\r\n"));
             } catch (IOException ex) {
                 Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
             }

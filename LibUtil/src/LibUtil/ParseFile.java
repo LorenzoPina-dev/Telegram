@@ -5,6 +5,7 @@
  */
 package LibUtil;
 
+import Services.GestioneService;
 import java.io.IOException;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
@@ -22,7 +23,7 @@ public class ParseFile {
     public static Element ParseXml(String url) throws ParserConfigurationException, SAXException, IOException{
         DocumentBuilderFactory factory;
         DocumentBuilder builder;
-        Element root, element;
+        Element root;
         factory=DocumentBuilderFactory.newInstance();
         builder=factory.newDocumentBuilder();
         Document document=builder.parse(url);
@@ -39,5 +40,8 @@ public class ParseFile {
         return new JSONObject(json);
     }
 
+    public static JSONObject ParseJSON(String url,Map<String,String> parametri) throws IOException{
+        return ParseJSON(GestioneService.CreateUrl(url, parametri));
+    }
     
 }

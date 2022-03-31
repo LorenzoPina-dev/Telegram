@@ -48,8 +48,7 @@ public class Interfaccia {
             Map<String,String> parametri=new HashMap();
             parametri.put("text", Text);
             parametri.put("chat_id", chat_Id+"");
-            JSONObject obj=ParseFile.ParseJSON(GestioneService.CreateUrl("https://api.telegram.org/bot"+ApiKey+"/sendMessage",parametri));
-            if(!obj.getBoolean("ok"))
+            if(!ParseFile.ParseJSON("https://api.telegram.org/bot"+ApiKey+"/sendLocation",parametri).getBoolean("ok"))
                 throw new Exception("chiamata errata");
         } catch (MalformedURLException ex) {
             Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,8 +64,7 @@ public class Interfaccia {
             parametri.put("latitude", Latitude+"");
             parametri.put("longitude", Longitude+"");
             parametri.put("chat_id", chat_Id+"");
-            JSONObject obj=ParseFile.ParseJSON(GestioneService.CreateUrl("https://api.telegram.org/bot"+ApiKey+"/sendLocation",parametri));
-            if(!obj.getBoolean("ok"))
+            if(!ParseFile.ParseJSON("https://api.telegram.org/bot"+ApiKey+"/sendLocation",parametri).getBoolean("ok"))
                 throw new Exception("chiamata errata");
         } catch (MalformedURLException ex) {
             Logger.getLogger(Interfaccia.class.getName()).log(Level.SEVERE, null, ex);
@@ -76,12 +74,11 @@ public class Interfaccia {
     }
     
     private List<Messaggio> parseJson(String json) throws Exception{
-        List<Messaggio> ris=new ArrayList();
         JSONObject obj=ParseFile.ParseJSON(json);
         if(!obj.getBoolean("ok"))
             throw new Exception("chiamata errata");
         JSONArray result=obj.getJSONArray("result");
-        
+        List<Messaggio> ris=new ArrayList();
         for(int i=0;i<result.length();i++)
             if(result.getJSONObject(i).has("message"))
                 ris.add(new Messaggio(result.getJSONObject(i).getJSONObject("message")));

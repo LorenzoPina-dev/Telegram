@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * @author pina_lorenzo
  */
-public class GestioneFile {
+public class GestioneFile{
     public static void ScriviFile(String file,String testo) throws IOException{
         ScriviFile(new FileWriter(file), testo);
     }
